@@ -8,6 +8,7 @@ import com.example.googlebooks.interfaces.ViewModelCallback
 import com.example.googlebooks.interfaces.RepositoryCallback
 import com.example.googlebooks.model.Book
 import com.example.googlebooks.repository.BookRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BookViewModel : ViewModel() {
@@ -15,7 +16,7 @@ class BookViewModel : ViewModel() {
     private lateinit var bookRepository: BookRepository
     private lateinit var books: ArrayList<Book>
 
-    fun getData(viewModelCallback: ViewModelCallback,context : Context,toast: Toast) = viewModelScope.launch {
+    fun getData(viewModelCallback: ViewModelCallback,context : Context,toast: Toast) = viewModelScope.launch(Dispatchers.IO) {
         bookRepository = BookRepository(context,toast)
         bookRepository.getData(object : RepositoryCallback{
             override fun onSuccess(books: ArrayList<Book>) {
